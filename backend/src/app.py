@@ -1,17 +1,21 @@
-from fastapi import FastAPI, Response, Depends, Form
-from pydantic import BaseModel, Json
-from typing import List, Tuple, Callable, Optional
-from sklearn.metrics import pairwise_distances
+from fastapi import FastAPI, Response
+from pydantic import BaseModel
+from typing import List, Tuple, Callable
 from sklearn.feature_extraction.text import TfidfVectorizer
-import numpy as np
-import scipy as sp
 import scipy.spatial as sps
-from nomic import embed
 from sentence_transformers import SentenceTransformer
-
-sentence_transformer_nomic = SentenceTransformer("nomic-ai/nomic-embed-text-v1", trust_remote_code=True)
+from time import time
 
 STOP_WORDS = "a, an, and, are, as, at, be, but, by, for, if, in, into, is, it, no, not, of, on, or, such, that, the, their, then, there, these, they, this, to, was, will, with".split(', ')
+
+sentence_transformer_nomic = SentenceTransformer("nomic-ai/nomic-embed-text-v1", trust_remote_code=True)
+run_metrics = {
+    'unique_visitors': set(),
+    'job_bullets': 0,
+    'requirements': 0,
+    'run_time_hours': time()
+}
+ip_md5_hashes = set()
 
 class Requirement(BaseModel):
     id: int
@@ -59,6 +63,9 @@ class StandardInputForm(BaseModel):
         for source_i, id_i, text_i, vector_i, title_i in zip(sources, ids, texts, vectors, titles):
 
             if source_i == 'resume':
+                
+                # might cause issues on refactor
+                run_metrics['job_bullets'] += 1
 
                 # make a new enriched job bullet
                 job_id, bullet_id = id_i
@@ -81,6 +88,9 @@ class StandardInputForm(BaseModel):
 
 
             elif source_i == 'requirements':
+                # might cause issues on refactor
+                run_metrics['requirements'] += 1
+
                 new_enriched_requirement = EnrichedRequirement(id=id_i, value=text_i, embedding=vector_i, distances=[])
                 result.requirements.append(new_enriched_requirement)
                         
@@ -88,7 +98,6 @@ class StandardInputForm(BaseModel):
         for job in result.resume:
             for bullet in job.bullets:
                 for requirement in result.requirements:
-                    print(bullet.embedding, requirement.value)
                     bullet.distances.append((requirement.id, distance_func(bullet.embedding, requirement.embedding)))
 
         # add the distances on the requirement side
@@ -165,3 +174,14 @@ def enrich_with_transformer(standard_input: StandardInputForm):
 
     return result
 
+@app.post('/analytics/share')
+def analytics(ip_md5_hash:str, country:str):
+    ip_md5_hashes.add(ip_md5_hash)
+
+@app.get('/analytics/view')
+def analytics():
+    from copy import deepcopy
+    response = deepcopy(run_metrics)
+    response['unique_visitors'] = len(response['unique_visitors'])
+    response['run_time_hours'] = (time() - response['run_time_hours'])/60
+    return response
