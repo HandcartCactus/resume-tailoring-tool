@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import MainContainer from './components/MainContent/MainContainer.vue';
 import RequirementsContainer from './components/RequirementsContainer.vue';
 import ResumeContainer from './components/ResumeContainer.vue';
 import TailorContainer from './components/TailorContainer.vue';
+import NotUsingFirefox from './components/NotUsingFirefox.vue';
 </script>
 
 <template>
@@ -17,6 +17,9 @@ import TailorContainer from './components/TailorContainer.vue';
   </div>
   <div>
     <TailorContainer />
+  </div>
+  <div>
+    <NotUsingFirefox />
   </div>
 </template>
 
