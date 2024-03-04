@@ -3,12 +3,12 @@ from pydantic import BaseModel
 from typing import List, Tuple, Callable
 from sklearn.feature_extraction.text import TfidfVectorizer
 import scipy.spatial as sps
-from sentence_transformers import SentenceTransformer
+#from sentence_transformers import SentenceTransformer
 from time import time
 
 STOP_WORDS = "a, an, and, are, as, at, be, but, by, for, if, in, into, is, it, no, not, of, on, or, such, that, the, their, then, there, these, they, this, to, was, will, with".split(', ')
 
-sentence_transformer_nomic = SentenceTransformer("nomic-ai/nomic-embed-text-v1", trust_remote_code=True)
+#sentence_transformer_nomic = SentenceTransformer("nomic-ai/nomic-embed-text-v1", trust_remote_code=True)
 run_metrics = {
     'unique_visitors': set(),
     'job_bullets': 0,
@@ -160,19 +160,19 @@ def enrich_with_tfidf(standard_input: StandardInputForm):
     
     return result
 
-@app.post('/enrich/transformer/', response_model=Enrichments)
-def enrich_with_transformer(standard_input: StandardInputForm):
+# @app.post('/enrich/transformer/', response_model=Enrichments)
+# def enrich_with_transformer(standard_input: StandardInputForm):
     
-    def vector_func(texts, sources, titles):
-        formatted_text = [
-            f'search_query: {te}' if s == 'requirements' else f'search_document: {te} ({ti})'
-            for te, s, ti in zip(texts, sources, titles)
-        ]
-        return sentence_transformer_nomic.encode(formatted_text)
+#     def vector_func(texts, sources, titles):
+#         formatted_text = [
+#             f'search_query: {te}' if s == 'requirements' else f'search_document: {te} ({ti})'
+#             for te, s, ti in zip(texts, sources, titles)
+#         ]
+#         return sentence_transformer_nomic.encode(formatted_text)
 
-    result=standard_input.enrich(vector_func=vector_func, distance_func=sps.distance.cosine)
+#     result=standard_input.enrich(vector_func=vector_func, distance_func=sps.distance.cosine)
 
-    return result
+#     return result
 
 @app.post('/analytics/share')
 def analytics(ip_md5_hash:str, country:str):
