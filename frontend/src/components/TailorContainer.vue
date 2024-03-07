@@ -1,77 +1,68 @@
 <template>
   <div class="rounded-light-spacing">
     <h2>Results</h2>
-    <button @click="getAnalytics()">Run Results!</button>
-    <div v-if="currentState==='unloaded'">
-      <p>No analytics yet.</p>
-    </div>
-    <div v-else-if="currentState==='loading'">
-      <p>Analytics Loading...</p>
-    </div>
-    <div v-else-if="currentState==='error'">
-      <p>Issue! Try again later.</p>
-    </div>
-    <div v-else-if="currentState==='loaded'">
-      <ol v-for="job in enriched.resume" :key="job.id">
-      <li>
-        {{ job.title }}
-        <ol v-for="bullet in job.bullets" :key="bullet.id">
-          <li>
-            {{ bullet.text }}
-            <ol v-for="distance in distances" :key="distance.req_id">
-              <li>{{ distance }}</li>
-            </ol>
-          </li>
-        </ol>
-      </li>
-    </ol>
-    </div>
+    <button @click="getTfIdfGraph()" :disabled="isDisabled()">Run Results!</button>
+    <GraphNetworkContainer :graph="graphNetwork"/>
   </div>
 </template>
 
 <script lang="ts">
 import { storeToRefs } from 'pinia';
 import { defineComponent, ref } from 'vue';
-import { useResume } from '../store/resume.ts';
 import { useRequirements } from '../store/requirements.ts';
+import { useJobBullet } from '../store/jobBullet.ts';
+import GraphNetworkContainer from './GraphNetwork/GraphNetworkContainer.vue'
+import axios from 'axios';
 
 export default defineComponent({
   name: 'TailorContainer',
-  components: {},
-  methods: {
-    getAnalytics() {
-      try {
-        this.currentState = 'loading';
-        this.enriched = this.$http.post(
-          '/enrich/tfidf/',
-          {
-            resume: this.resume,
-            requirements: this.requirements,
-          },
-        );
-        this.currentState = 'loaded';
-      } catch {
-        this.currentState = 'error'
-      }
-    },
-  },
+  components: { GraphNetworkContainer },
   setup() {
-    const resumeStore = useResume();
-    const { resume } = storeToRefs(resumeStore);
+    const jobBulletStore = useJobBullet();
+    const { jobs } = storeToRefs(jobBulletStore);
+
     const requirementsStore = useRequirements();
     const { requirements } = storeToRefs(requirementsStore);
-    let currentState: string = 'unloaded';
-    let enriched = {
-      resume: [],
-      requirements: [],
-    };
+
+    const graphNetwork = ref(null);
+
+    function isDisabled(){
+      let bulletCount = 0;
+      let reqCount = 0;
+      for (let job of jobs.value) {
+        for (let bullet of job.bullets) {
+          bulletCount += bullet.length
+        }
+      }
+      for (let req of requirements.value) {
+        reqCount += req.length
+      }
+      return reqCount < 1 || bulletCount < 1
+    }
+
+    async function getTfIdfGraph() {
+      try {
+        const postResponse = await axios.post('http://127.0.0.1:20595/tfidf/distgraph', {jobs: this.jobs, requirements: this.requirements,}, {headers: {}});
+        graphNetwork.value = postResponse.data;
+        
+      } catch (error) {
+        console.error('Error making POST request:', error);
+      }
+    }
+
     return {
-      currentState: currentState,
-      resume: resume,
+      jobs: jobs,
       requirements: requirements,
-      enriched: enriched,
+      graphNetwork: graphNetwork,
+      isDisabled: isDisabled,
+      getTfIdfGraph: getTfIdfGraph,
     };
   },
+  methods: {
+    
+  },
+  
+  
 });
 </script>
 
