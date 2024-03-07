@@ -1,37 +1,25 @@
 import { defineStore } from 'pinia';
 
-interface Requirement {
-  id: number;
-  value: string;
-}
-
 export const useRequirements = defineStore('requirements', {
   state: () => ({
-    requirements: [] as Requirement[],
+    requirements: [''] as string[],
   }),
 
   actions: {
-    createRequirement(item: Requirement) {
-      this.requirements.push(item);
+    createRequirement() {
+      this.requirements.push('');
     },
 
-    updateRequirement(updatedItem: Requirement) {
-      const index = this.requirements.findIndex(
-        (item) => item.id === updatedItem.id
-      );
-      if (index !== -1) {
-        this.requirements[index] = updatedItem;
-      }
+    updateRequirement(reqIndex: number, newValue: string) {
+      this.requirements[reqIndex] = newValue;
     },
 
-    deleteRequirement(itemId: number) {
-      this.requirements = this.requirements.filter(
-        (item) => item.id !== itemId
-      );
+    deleteRequirement(reqIndex: number) {
+      this.requirements.splice(reqIndex, 1);
     },
 
-    importRequirements(items: Requirement[]) {
-      this.requirements = items;
+    importData(data: string[]) {
+      this.requirements = data;
     },
   },
 });
