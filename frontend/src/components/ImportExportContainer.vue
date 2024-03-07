@@ -23,7 +23,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import { saveAs } from 'file-saver';
-import { Requirement } from '../store/stringList.ts';
+//import { Requirement } from '../store/stringList.ts';
 
 export default defineComponent({
   name: 'ImportExportContainer',
@@ -43,7 +43,7 @@ export default defineComponent({
         }
       }
     },
-    readFileAsJson(file: File): Promise<Requirement[]> {
+    readFileAsJson(file: File): Promise<Object> {
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
 
@@ -70,11 +70,10 @@ export default defineComponent({
       const blob = new Blob([JSON.stringify(props.data)], {
         type: 'application/json',
       });
-      Date.now().
       saveAs(blob, `${props.elemName}_${Date.now()}.json`);
     }
 
-    function importData(data) {
+    function importData(data: Object) {
       props.importFunc(data);
     }
 
