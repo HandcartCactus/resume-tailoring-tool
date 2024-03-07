@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import RequirementsContainer from './components/RequirementsContainer.vue';
-import ResumeContainer from './components/ResumeContainer.vue';
+//import ResumeContainer from './components/ResumeContainer.vue';
+import JobBulletContainer from './components/JobBulletContainer.vue';
 import TailorContainer from './components/TailorContainer.vue';
 import NotUsingFirefox from './components/NotUsingFirefox.vue';
 </script>
@@ -13,7 +14,7 @@ import NotUsingFirefox from './components/NotUsingFirefox.vue';
     <RequirementsContainer />
   </div>
   <div>
-    <ResumeContainer />
+    <JobBulletContainer />
   </div>
   <div>
     <TailorContainer />
