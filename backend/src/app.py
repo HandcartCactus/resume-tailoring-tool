@@ -1,4 +1,5 @@
-from fastapi import FastAPI, Response
+from fastapi import FastAPI, Response, Request
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List, Tuple, Callable
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -15,23 +16,22 @@ run_metrics = {
     'requirements': 0,
     'run_time_hours': time()
 }
+
+origins = [
+    "http://localhost:5173",
+]
 ip_md5_hashes = set()
 
 class Requirement(BaseModel):
     id: int
     value: str
 
-class JobBullet(BaseModel):
-    id: int
-    text: str
-
 class Job(BaseModel):
-    id: int
     title: str
-    bullets: List[JobBullet]
+    bullets: List[str]
 
 class StandardInputForm(BaseModel):
-    resume: List[Job]
+    jobs: List[Job]
     requirements: List[Requirement]
 
     def unpack_sources_ids_texts_titles(self):
@@ -125,7 +125,8 @@ class EnrichedRequirement(Requirement):
     embedding: List[float]
     distances: List[Tuple[JobBulletKey, float]]
 
-class EnrichedJobBullet(JobBullet):
+class EnrichedJobBullet(BaseModel):
+    bullet: str
     embedding: List[float]
     distances: List[Tuple[int, float]]
 
@@ -141,6 +142,17 @@ class Enrichments(BaseModel):
 
 
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=['*'],
+    allow_headers=["*"],
+)
+
+@app.middleware("http")
+async def print_req(request: Request, call_next):
+    print(request)
 
 @app.get('/status/')
 def get_status():
