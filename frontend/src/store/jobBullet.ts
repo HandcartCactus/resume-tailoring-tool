@@ -2,7 +2,7 @@
 import { defineStore } from 'pinia';
 
 // Define a type for your inner list
-type Job = {
+export type Job = {
   title: string;
   bullets: string[];
 };
