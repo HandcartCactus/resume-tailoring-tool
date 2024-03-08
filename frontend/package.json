@@ -6,8 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc && vite build",
-    "preview": "vite preview",
-    "prod": "vite --host --port 80"
+    "preview": "vite preview"
   },
   "dependencies": {
     "@types/d3": "^7.4.3",
