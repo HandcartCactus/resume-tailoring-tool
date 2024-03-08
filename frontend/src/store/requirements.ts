@@ -14,6 +14,10 @@ export const useRequirements = defineStore('requirements', {
       this.requirements[reqIndex] = newValue;
     },
 
+    updateRequirementEvent(reqIndex: number, event: Event) {
+      this.requirements[reqIndex] = (event.target as HTMLInputElement).value;
+    },
+
     deleteRequirement(reqIndex: number) {
       this.requirements.splice(reqIndex, 1);
     },
