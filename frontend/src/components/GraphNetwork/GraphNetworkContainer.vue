@@ -14,26 +14,21 @@
         const graph = ref(props.graph);
         const graphContainer = ref(null);
   
-        onMounted(() => {
-        // D3 code to create a disjoint force-directed graph
-        const width = 600;
-        const height = 400;
+        // onMounted(() => {
+        // // D3 code to create a disjoint force-directed graph
+        // const width = 600;
+        // const height = 400;
   
-        const svg = d3.select(graphContainer.value)
-          .append('svg')
-          .attr('width', width)
-          .attr('height', height);
+        // const svg = d3.select(graphContainer.value)
+        //   .append('svg')
+        //   .attr('width', width)
+        //   .attr('height', height);
   
         // Your D3 force-directed graph code here
             
-      });
+        //});
   
       return { graphContainer, graph };
-    },
-    watchers: {
-        graph(newGraph, oldGraph) {
-            console.log('graph change!');
-        },
     }
   });
   </script>
