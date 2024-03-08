@@ -1,19 +1,27 @@
 <template>
   <div class="rounded-light-spacing">
     <div>
-      <span>
-        <button @click="exportData()">Export {{ elemName }}</button>
-
-        <label :for="uniqueElementId" class="pseudo-button"
-          >Import {{ elemName }}</label
-        >
-        <input
+      <div class="button-container">
+        <div class="button">
+          <button @click="exportData()">Export {{ elemName }}</button>
+        </div>
+        <div class="button file-input-container">
+          <label :for="uniqueElementId" class="pseudo-button"
+          >Import {{ elemName }}
+          <input
           type="file"
           :id="uniqueElementId"
           style="visibility: hidden"
+          
           @change="handleFileUpload"
         />
-      </span>
+          </label>
+        
+        </div>
+        <div class="button">
+          <button @click="loadExampleObj()" :disabled="exampleObj==null">Load Example {{ elemName }}</button>
+        </div>
+      </div>
     </div>
 
     <!-- <button @click="importData()">Import {{ elemName }}</button> -->
@@ -21,13 +29,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent } from 'vue';
 import { saveAs } from 'file-saver';
 //import { Requirement } from '../store/stringList.ts';
 
 export default defineComponent({
   name: 'ImportExportContainer',
-  props: ['elemName', 'data', 'importFunc'],
+  props: ['elemName', 'data', 'importFunc', 'exampleObj'],
   methods: {
     async handleFileUpload(event: Event) {
       const input = event.target as HTMLInputElement;
@@ -64,6 +72,13 @@ export default defineComponent({
         reader.readAsText(file);
       });
     },
+    async loadExampleObj() {
+      if (this.exampleObj) {
+        // deep copy (i hate javascript so much it's unreal)
+        const stupidDeepCopyHack = JSON.parse(JSON.stringify(this.exampleObj))
+        this.importData(stupidDeepCopyHack);
+      }
+    }
   },
   setup(props) {
     function exportData() {
@@ -89,4 +104,20 @@ export default defineComponent({
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+
+.button-container {
+    display: flex;
+}
+
+/* Style for each button div */
+.button {
+    margin-right: 5px;
+    margin-left: 5px;
+    margin-top: 1px;
+    margin-bottom: 1px;
+}
+
+
+
+</style>
