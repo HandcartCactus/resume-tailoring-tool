@@ -4,8 +4,8 @@
   </template>
   
   <script lang="ts">
-  import { defineComponent, onMounted, ref } from 'vue';
-  import * as d3 from 'd3';
+  import { defineComponent, ref } from 'vue';
+  //import * as d3 from 'd3';
   
   export default defineComponent({
     name: 'GraphNetworkContainer',
