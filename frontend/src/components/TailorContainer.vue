@@ -49,7 +49,6 @@ export default defineComponent({
         console.error('Error making POST request:', error);
       }
     }
-
     return {
       jobs: jobs,
       requirements: requirements,
@@ -58,11 +57,13 @@ export default defineComponent({
       getTfIdfGraph: getTfIdfGraph,
     };
   },
-  methods: {
-    
+  mounted(){
+    try {
+      axios.post('http://127.0.0.1:20595/session/start/')
+    } catch (error) {
+      console.log(error)
+    }
   },
-  
-  
 });
 </script>
 
