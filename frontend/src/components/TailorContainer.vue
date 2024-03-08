@@ -40,7 +40,7 @@ export default defineComponent({
       return reqCount < 1 || bulletCount < 1
     }
 
-    async function getTfIdfGraph(jobs: Job, requirements: string[]) {
+    async function getTfIdfGraph(jobs: Job[], requirements: string[]) {
       try {
         const postResponse = await axios.post('http://127.0.0.1:20595/tfidf/distgraph', {jobs: jobs, requirements: requirements,}, {headers: {}});
         graphNetwork.value = postResponse.data;
