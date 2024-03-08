@@ -12,7 +12,7 @@
         <span class="same-row">
           <textarea
             :value="bullet"
-            @input="store.updateBullet(jobIndex, bulletIndex, $event.target.value)"
+            @input="store.updateBulletEvent(jobIndex, bulletIndex, $event)"
             :placeholder="randomJobBulletPrompt((jobIndex+1) * bulletIndex)"
             class="same-row"
           ></textarea>
