@@ -15,6 +15,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.post('/session/start/')
+def print_request_ip(request: Request):
+    print('New session from:', request.client.host)
+
 app.include_router(
     router=tfidf.router,
     prefix='/tfidf',
