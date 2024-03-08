@@ -19,6 +19,7 @@
         :elemName="elemName"
         :data="requirements"
         :importFunc="store.importData"
+        :exampleObj="exampleRequirement"
       />
     </div>
   </div>
@@ -30,7 +31,7 @@ import { defineComponent } from 'vue';
 import { useRequirements } from '../store/requirements.ts';
 import { randomRequirementPrompt } from '../constants.ts';
 import ImportExportContainer from './ImportExportContainer.vue';
-
+import exampleRequirement from '../../sample_data/Requirements_1709621840868_cloud_job_listing.json'
 
 export default defineComponent({
   name: 'RequirementsContainer',
@@ -46,6 +47,7 @@ export default defineComponent({
       elemName,
       store,
       randomRequirementPrompt,
+      exampleRequirement,
     };
   },
 });

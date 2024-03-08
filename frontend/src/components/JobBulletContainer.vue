@@ -33,6 +33,7 @@
         :elemName="elemName"
         :data="jobs"
         :importFunc="store.importData"
+        :exampleObj="exampleResume"
       />
     </div>
   </div>
@@ -44,6 +45,7 @@ import { defineComponent } from 'vue';
 import { useJobBullet } from '../store/jobBullet.ts';
 import { randomJobBulletPrompt } from '../constants.ts'
 import ImportExportContainer from './ImportExportContainer.vue';
+import exampleResume from '../../sample_data/resume_sample_swdev.json';
 
 export default defineComponent({
   name: 'JobBulletContainer',
@@ -57,6 +59,7 @@ export default defineComponent({
       randomJobBulletPrompt: randomJobBulletPrompt,
       elemName: elemName,
       store: store,
+      exampleResume: exampleResume,
       // createJob: store.createJob,
       // deleteJob: store.deleteJob,
       // createBullet: store.createBullet,
