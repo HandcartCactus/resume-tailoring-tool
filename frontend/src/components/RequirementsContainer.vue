@@ -5,7 +5,7 @@
       <span class="same-row">
         <textarea
           :value="req"
-          @input="store.updateRequirement(reqIndex, $event.target.value)"
+          @input="store.updateRequirementEvent(reqIndex, $event)"
           :placeholder="randomRequirementPrompt(reqIndex)"
         ></textarea>
         <button @click="store.deleteRequirement(reqIndex)">❌</button>
