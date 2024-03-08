@@ -1,7 +1,18 @@
 [
     {
         "title": "SKILLS",
-        "bullets": ["Agile Methodology Scrum", "Kanban", "Extreme Programming(XP)", "Test-driven development (TDD) and Feature Driven development(FDD) Domain Industrial Automation", "Retail", "Banking", "Insurance", "Health care. Automation Framework Modular", "Data driven", "BPT", "Hybrid Test automation tool HP UFT", "TAF", "Load Runner", "Selenium", "Rational Robot", "DCMTK", "sikuli languages VB Script", "C++", "Python", "Shell Script Bug Tracking Tool Bugzilla", "Jira", "HP Quality Control", "AP Test", "Clear Quest Version management Clear case", "Win CVS", "SVN Database Oracle", "SQL server", "MySQL Network Protocols TCP/IP", "HTTP", "HTTPS", "VPN", "FTP", "LDAP Healthcare DICOM", "PACS", "HL7", "Image Archiving", "Image reconstruction", "Rockwell Automation Logix Designer", "Factory Talk", "RSLinx Classic", "Control Flash", "Compare Tool", "I/O modules and Profiles"]
+        "bullets": [
+            "Agile Methodology Scrum Kanban Extreme Programming(XP) Test-driven development (TDD) and Feature Driven development(FDD) Domain Industrial Automation", 
+            "Retail Banking Insurance Health care. Automation Framework Modular", 
+            "Data driven BPT Hybrid Test automation tool HP UFT TAF Load Runner Selenium Rational Robot", 
+            "DCMTK sikuli languages VB Script C++ Python Shell Script",
+            "Bug Tracking Tool Bugzilla Jira HP Quality Control AP Test", 
+            "Clear Quest Version management Clear case", 
+            "Win CVS SVN Database Oracle SQL server MySQL",
+            "Network Protocols TCP/IP HTTP HTTPS VPN FTP LDAP Healthcare DICOM PACS HL7", 
+            "Image Archiving Image reconstruction Rockwell Automation Logix Designer", 
+            "Factory Talk RSLinx Classic Control Flash Compare Tool I/O modules and Profiles"
+        ]
     },
     {
         "title": "Leading Industrial Automation",
