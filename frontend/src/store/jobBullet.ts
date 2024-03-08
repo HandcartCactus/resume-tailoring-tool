@@ -42,6 +42,14 @@ export const useJobBullet = defineStore('jobBullet',
       this.jobs[jobIndex].bullets[bulletIndex] = newValue
     },
 
+    updateBulletEvent: function(jobIndex:number, bulletIndex:number, event: Event) {
+      if (event.target==null) {
+        throw Error('event has no target');
+      } else {
+        this.jobs[jobIndex].bullets[bulletIndex] = (event.target as HTMLInputElement).value
+      }
+    },
+
     deleteBullet: function(jobIndex: number, bulletIndex: number) {
       // Logic to delete an item from a list
       this.jobs[jobIndex].bullets.splice(bulletIndex, 1);
