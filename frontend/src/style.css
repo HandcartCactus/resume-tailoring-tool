@@ -47,6 +47,10 @@ button,
   cursor: pointer;
   transition: border-color 0.25s;
   white-space: nowrap;
+  /*how does one diff CSS in firefox? help me :(*/
+  display: inline-block;
+  box-sizing: border-box;
+  line-height: normal;
 }
 button:hover,
 .pseudo-button:hover {
