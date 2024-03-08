@@ -13,4 +13,5 @@ cd backend
 uvicorn --port 20595 app2:app --reload
 ```
 
-## 
+## Production
+See `Dockerfile`.
