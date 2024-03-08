@@ -1,7 +1,7 @@
 <template>
   <div class="rounded-light-spacing">
     <h2>Results</h2>
-    <button @click="getTfIdfGraph()" :disabled="isDisabled()">Run Results!</button>
+    <button @click="getTfIdfGraph(jobs, requirements)" :disabled="isDisabled()">Run Results!</button>
     <GraphNetworkContainer :graph="graphNetwork"/>
   </div>
 </template>
@@ -10,7 +10,7 @@
 import { storeToRefs } from 'pinia';
 import { defineComponent, ref } from 'vue';
 import { useRequirements } from '../store/requirements.ts';
-import { useJobBullet } from '../store/jobBullet.ts';
+import { useJobBullet, Job } from '../store/jobBullet.ts';
 import GraphNetworkContainer from './GraphNetwork/GraphNetworkContainer.vue'
 import axios from 'axios';
 
@@ -40,9 +40,9 @@ export default defineComponent({
       return reqCount < 1 || bulletCount < 1
     }
 
-    async function getTfIdfGraph() {
+    async function getTfIdfGraph(jobs: Job, requirements: string[]) {
       try {
-        const postResponse = await axios.post('http://127.0.0.1:20595/tfidf/distgraph', {jobs: this.jobs, requirements: this.requirements,}, {headers: {}});
+        const postResponse = await axios.post('http://127.0.0.1:20595/tfidf/distgraph', {jobs: jobs, requirements: requirements,}, {headers: {}});
         graphNetwork.value = postResponse.data;
         
       } catch (error) {
