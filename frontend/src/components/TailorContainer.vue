@@ -2,6 +2,7 @@
   <div class="rounded-light-spacing">
     <h2>Results</h2>
     <button @click="getTfIdfGraph(jobs, requirements)" :disabled="isDisabled()">Run Results!</button>
+    <p>graphNetwork: {{ graphNetwork }}</p>
     <GraphNetworkContainer :graph="graphNetwork"/>
   </div>
 </template>
@@ -44,6 +45,7 @@ export default defineComponent({
       try {
         const postResponse = await axios.post('http://127.0.0.1:20595/tfidf/distgraph', {jobs: jobs, requirements: requirements,}, {headers: {}});
         graphNetwork.value = postResponse.data;
+        console.log(graphNetwork.value)
         
       } catch (error) {
         console.error('Error making POST request:', error);
