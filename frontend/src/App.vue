@@ -7,7 +7,7 @@ import NotUsingFirefox from './components/NotUsingFirefox.vue';
 
 <template>
   <div>
-    <h1>Elias's Resume Tailoring Tool</h1>
+    <h1>Elias's Résumé Tailoring Tool</h1>
   </div>
   <div>
     <RequirementsContainer />
