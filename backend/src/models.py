@@ -69,7 +69,7 @@ class StandardInputForm(BaseModel):
             for bidx, bullet in enumerate(job.bullets):
                 bullet_node_id = f"job{jidx}bullet{bidx}"
                 nodelist.append(Node(id=bullet_node_id, value=bullet, group='bullet'))
-                edgelist.append(Edge(source=job_node_id, target=bullet_node_id, value='1'))
+                edgelist.append(Edge(source=job_node_id, target=bullet_node_id, value=-1))
 
         for ridx, req in enumerate(self.requirements):
             req_node_idx = f"req{ridx}"
