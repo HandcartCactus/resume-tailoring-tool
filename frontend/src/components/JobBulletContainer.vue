@@ -45,7 +45,7 @@ import { defineComponent } from 'vue';
 import { useJobBullet } from '../store/jobBullet.ts';
 import { randomJobBulletPrompt } from '../constants.ts'
 import ImportExportContainer from './ImportExportContainer.vue';
-import exampleResume from '../../sample_data/resume_sample_swdev.json';
+import exampleResume from '../../sample_data/Résumé_silly.json';
 
 export default defineComponent({
   name: 'JobBulletContainer',
