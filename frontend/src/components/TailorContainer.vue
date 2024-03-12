@@ -2,8 +2,11 @@
   <div class="rounded-light-spacing">
     <h2>Results</h2>
     <button @click="getTfIdfGraph(jobs, requirements)" :disabled="isDisabled()">Run Results!</button>
-    <div class="rounded-light-spacing">
+    <div class="rounded-light-spacing" v-if="graphNetwork.hasStuff()">
       <h2>Matches to your Résumé</h2>
+        <p>
+          This pane shows requirements that match bullets in your résumé (if matching requirements exist).
+        </p>
       <ul>
         <li v-for="job of graphNetwork.getNodesWithGroup('job')" :key="'mres'+job.id">
           <h3>{{ job.value }}</h3>
@@ -22,14 +25,17 @@
       </ul>
     </div>
 
-    <div class="rounded-light-spacing">
+    <div class="rounded-light-spacing" v-if="graphNetwork.hasStuff()">
       <h2>Matches to the Requirements</h2>
+        <p>
+          This pane shows job bullets in your résumé that match requirements (if matching bullets exist).
+        </p>
       <ul>
         <li v-for="req of graphNetwork.getNodesWithGroup('req')" :key="'mreq'+req.id">
           <h3>{{ req.value }}</h3>
           <ol>
             <li v-for="pair of graphNetwork.neighborNodesAndEdgeWt(req.id, 'bullet', 1)" :key="'mreq'+pair.node.id">
-              {{ pair.node.value }} <b>({{ Math.round( 1000*(1 - pair.edgeWt))/10 }}%)</b> <i v-for="job of graphNetwork.neighborNodes(pair.node.id, 'job')" :key="'mreq'+job.id">{{ job.value }}</i>
+              {{ pair.node.value }} <b>({{ Math.round( 1000*(1 - pair.edgeWt))/10 }}%)</b> <i v-for="job of graphNetwork.neighborNodes(pair.node.id, 'job')" :key="'mreqj'+job.id">{{ job.value }}</i>
             </li>
           </ol>
         </li>

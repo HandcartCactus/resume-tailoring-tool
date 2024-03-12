@@ -226,4 +226,8 @@ export class GraphNetwork {
         }
         return g;
     }
+
+    hasStuff() {
+        return this.nodelist.length > 0
+    }
 }
