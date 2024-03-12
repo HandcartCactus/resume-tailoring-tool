@@ -82,7 +82,7 @@ export default defineComponent({
 
     async function getTfIdfGraph(jobs: Job[], requirements: string[]) {
       try {
-        const postResponse = await axios.post('http://127.0.0.1:20595/tfidf/distgraph', {jobs: jobs, requirements: requirements,}, {headers: {}});
+        const postResponse = await axios.post(process.env.VUE_APP_BASE_URL+'/tfidf/distgraph', {jobs: jobs, requirements: requirements,}, {headers: {}});
         graphNetwork.value.nodelist = postResponse.data.nodelist;
         graphNetwork.value.edgelist = postResponse.data.edgelist;
       } catch (error) {
