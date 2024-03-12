@@ -51,7 +51,7 @@ import { defineComponent, ref } from 'vue';
 import { useRequirements } from '../store/requirements.ts';
 import { useJobBullet, Job } from '../store/jobBullet.ts';
 import GraphNetworkContainer from './GraphNetwork/GraphNetworkContainer.vue';
-import { GraphNetwork, GraphEdge, GraphNode } from './tailor/graphNetworkOps.ts';
+import { GraphNetwork } from './tailor/graphNetworkOps.ts';
 import axios from 'axios';
 
 export default defineComponent({
