@@ -21,6 +21,9 @@ import NotUsingFirefox from './components/NotUsingFirefox.vue';
   <div>
     <NotUsingFirefox />
   </div>
+  <footer>
+    <p>(C) Elias Jaffe, 2024</p>
+  </footer>
 </template>
 
 <style scoped></style>
