@@ -9,7 +9,7 @@ origins = [
 ]
 
 
-app = FastAPI(debug=True)
+app = FastAPI(debug=True,root_path='api/')
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
