@@ -3,11 +3,13 @@ from fastapi.middleware.cors import CORSMiddleware
 import tfidf
 
 origins = [
-    "http://localhost:5173",
+    'http://localhost',
+    #"http://localhost:5173",
+    #"http://resumetool.eliasjaffe.com",
 ]
 
 
-app = FastAPI()
+app = FastAPI(debug=True)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
