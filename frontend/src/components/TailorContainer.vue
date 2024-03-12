@@ -3,11 +3,38 @@
     <h2>Results</h2>
     <button @click="getTfIdfGraph(jobs, requirements)" :disabled="isDisabled()">Run Results!</button>
     <div class="rounded-light-spacing">
-      
+      <h2>Matches to your Résumé</h2>
+      <ul>
+        <li v-for="job of graphNetwork.getNodesWithGroup('job')" :key="'mres'+job.id">
+          <h3>{{ job.value }}</h3>
+
+          <ul>
+            <li v-for="bullet of graphNetwork.neighborNodes(job.id, 'bullet')" :key="'mres'+bullet.id">
+              <h4>{{ bullet.value }}</h4>
+              <ol>
+                <li v-for="pair of graphNetwork.neighborNodesAndEdgeWt(bullet.id, 'req', 1)" :key="'mres'+pair.node.id">
+                  {{ pair.node.value }} <b>({{ Math.round( 1000*(1 - pair.edgeWt))/10 }}%)</b>
+                </li>
+              </ol>
+            </li>
+          </ul>
+        </li>
+      </ul>
     </div>
-    
-    <p>graphNetwork: {{ graphNetwork }}</p>
-      
+
+    <div class="rounded-light-spacing">
+      <h2>Matches to the Requirements</h2>
+      <ul>
+        <li v-for="req of graphNetwork.getNodesWithGroup('req')" :key="'mreq'+req.id">
+          <h3>{{ req.value }}</h3>
+          <ol>
+            <li v-for="pair of graphNetwork.neighborNodesAndEdgeWt(req.id, 'bullet', 1)" :key="'mreq'+pair.node.id">
+              {{ pair.node.value }} <b>({{ Math.round( 1000*(1 - pair.edgeWt))/10 }}%)</b> <i v-for="job of graphNetwork.neighborNodes(pair.node.id, 'job')" :key="'mreq'+job.id">{{ job.value }}</i>
+            </li>
+          </ol>
+        </li>
+      </ul>
+    </div>
     <!-- <GraphNetworkContainer :graph="graphNetwork"/> -->
   </div>
 </template>
@@ -18,6 +45,7 @@ import { defineComponent, ref } from 'vue';
 import { useRequirements } from '../store/requirements.ts';
 import { useJobBullet, Job } from '../store/jobBullet.ts';
 import GraphNetworkContainer from './GraphNetwork/GraphNetworkContainer.vue';
+import { GraphNetwork, GraphEdge, GraphNode } from './tailor/graphNetworkOps.ts';
 import axios from 'axios';
 
 export default defineComponent({
@@ -30,7 +58,7 @@ export default defineComponent({
     const requirementsStore = useRequirements();
     const { requirements } = storeToRefs(requirementsStore);
 
-    const graphNetwork = ref(null);
+    const graphNetwork = ref(new GraphNetwork([], []));
 
     function isDisabled(){
       let bulletCount = 0;
@@ -49,9 +77,8 @@ export default defineComponent({
     async function getTfIdfGraph(jobs: Job[], requirements: string[]) {
       try {
         const postResponse = await axios.post('http://127.0.0.1:20595/tfidf/distgraph', {jobs: jobs, requirements: requirements,}, {headers: {}});
-        graphNetwork.value = postResponse.data;
-        console.log(graphNetwork.value)
-        
+        graphNetwork.value.nodelist = postResponse.data.nodelist;
+        graphNetwork.value.edgelist = postResponse.data.edgelist;
       } catch (error) {
         console.error('Error making POST request:', error);
       }
@@ -68,5 +95,7 @@ export default defineComponent({
 </script>
 
 <style scoped type="css">
-
+li {
+  text-align: left;  
+}
 </style>
