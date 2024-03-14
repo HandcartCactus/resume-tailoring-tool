@@ -1,7 +1,12 @@
 # Resume Tailoring Tool
+## Intro & Demo
 [![Intro and Demo Video](https://img.youtube.com/vi/-xjNAUPHewo/0.jpg)](https://www.youtube.com/watch?v=-xjNAUPHewo)
 
 _An intro and demo video for the tool._
+
+## Import / Export JSON File Examples
++ [Requirements](frontend/sample_data/Requirements_silly.json)
++ [Resume](frontend/sample_data/Resume_silly.json)
 
 ## Development
 ### Frontend Dev
