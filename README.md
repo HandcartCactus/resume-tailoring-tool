@@ -26,7 +26,7 @@ uvicorn --port 20595 app:app --reload
 sudo yum install -y nginx npm git python3
 git clone https://github.com/HandcartCactus/resume-tailoring-tool.git <INSTALL LOCATION>/repo;
 ```
-### Frontend Install
+#### Frontend Install
 ```bash
 cd <INSTALL LOCATION>/repo/frontend
 npm install
