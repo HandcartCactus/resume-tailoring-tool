@@ -1,4 +1,7 @@
 # Resume Tailoring Tool
+[![Intro and Demo Video](https://img.youtube.com/vi/-xjNAUPHewo/0.jpg)](https://www.youtube.com/watch?v=-xjNAUPHewo)
+
+_An intro and demo video for the tool._
 
 ## Development
 ### Frontend Dev
