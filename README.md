@@ -6,7 +6,7 @@ _An intro and demo video for the tool._
 
 ## Import / Export JSON File Examples
 + [Requirements](frontend/sample_data/Requirements_silly.json)
-+ [Resume](frontend/sample_data/Resume_silly.json)
++ [Resume](frontend/sample_data/Résumé_silly.json)
 
 ## Development
 ### Frontend Dev
