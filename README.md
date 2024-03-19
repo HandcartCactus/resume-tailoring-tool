@@ -46,6 +46,12 @@ sudo cp -R /home/ec2-user/repo/frontend/dist /var/www/app
 # Modify filename & internal url before copying if you're not me
 sudo cp /home/ec2-user/repo/frontend/resumetool.eliasjaffe.com.conf /etc/nginx/conf.d
 ```
+##### Install SSL/TLS Cert (if needed)
+```bash
+sudo yum install certbot
+sudo certbot certonly --standalone -d resumetool.eliasjaffe.com
+sudo systemctl start certbot-renew.timer
+```
 #### Backend Install
 ```bash
 cd /home/ec2-user/repo/backend
