@@ -3,6 +3,7 @@ import RequirementsContainer from './components/RequirementsContainer.vue';
 import JobBulletContainer from './components/JobBulletContainer.vue';
 import TailorContainer from './components/TailorContainer.vue';
 import NotUsingFirefox from './components/NotUsingFirefox.vue';
+import ForceNetworkSvg from './components/ForceNetworkSvg.vue';
 </script>
 
 <template>
@@ -17,6 +18,9 @@ import NotUsingFirefox from './components/NotUsingFirefox.vue';
   </div>
   <div>
     <TailorContainer />
+  </div>
+  <div>
+    <ForceNetworkSvg />
   </div>
   <div>
     <NotUsingFirefox />
