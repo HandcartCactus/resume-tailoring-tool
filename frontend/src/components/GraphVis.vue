@@ -1,13 +1,5 @@
 <template>
-    <div>
-        <div>
-            <h2>Match Graph Network</h2>
-            <p>This is an alternative way of viewing your matches. Be on the lookout for stray requirements, and bullets
-                (blue) that don't link to any requirements (orange).</p>
-        </div>
         <div :id="SVG_CONTAINER_DIV_ID"></div>
-    </div>
-
 </template>
 
 <script lang="ts">
@@ -16,6 +8,7 @@ import * as d3 from "d3";
 
 // unique div id we will load graph network into
 const SVG_CONTAINER_DIV_ID = "force-network-svg-container-lWOHS1nBckdatG8L";
+const SVG_ELEMENT_ID = "force-network-svg-element";
 
 const NODE_SIZES: { [group: string]: number } = {
     job: 5,
@@ -129,7 +122,7 @@ export default defineComponent({
             const simulation = d3
                 .forceSimulation(nodes)
                 .force("link", d3.forceLink(links).id((d: any) => d.id))
-                .force("charge", d3.forceManyBody().strength(-10))
+                .force("charge", d3.forceManyBody().strength(-40))
                 .force("center", d3.forceCenter(props.width / 2, props.height / 2).strength(1.1))
                 .force("collide", d3.forceCollide().radius((d: any) => (3.5 * NODE_SIZES[d.group])))
                 .on("tick", ticked);
@@ -140,7 +133,8 @@ export default defineComponent({
                 .attr("width", props.width)
                 .attr("height", props.height)
                 .attr("viewBox", [0, 0, props.width, props.height])
-                .attr("style", props.svgStyle);
+                .attr("style", props.svgStyle)
+                .attr("id", SVG_ELEMENT_ID);
 
             // Add a line for each link, and a circle for each node.
             const link = svg
@@ -247,6 +241,7 @@ export default defineComponent({
             props,
             createSvg,
             SVG_CONTAINER_DIV_ID,
+            SVG_ELEMENT_ID,
         };
     },
     mounted() {
@@ -255,7 +250,16 @@ export default defineComponent({
             throw Error(`no div with id ${SVG_CONTAINER_DIV_ID}`)
         }
         container.appendChild(this.createSvg());
+        this.$watch('nodes', ()=>{
+            document.getElementById(SVG_ELEMENT_ID)?.remove();
+            container?.appendChild(this.createSvg());
+        });
+        this.$watch('links', ()=>{
+            document.getElementById(SVG_ELEMENT_ID)?.remove();
+            container?.appendChild(this.createSvg());
+        });
     },
+    
 });
 </script>
 

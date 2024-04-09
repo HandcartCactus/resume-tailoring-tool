@@ -2,48 +2,9 @@
   <div class="rounded-light-spacing">
     <h2>Results</h2>
     <button @click="getTfIdfGraph(jobs, requirements)" :disabled="isDisabled()">Run Results!</button>
-    <div class="rounded-light-spacing" v-if="graphNetwork.hasStuff()">
-      <h2>Matches to your Résumé</h2>
-        <p>
-          This pane shows requirements that match bullets in your résumé (if matching requirements exist).
-        </p>
-      <ul>
-        <li v-for="job of graphNetwork.getNodesWithGroup('job')" :key="'mres'+job.id">
-          <h3>{{ job.value }}</h3>
-
-          <ul>
-            <li v-for="bullet of graphNetwork.neighborNodes(job.id, 'bullet')" :key="'mres'+bullet.id">
-              <h4>{{ bullet.value }}</h4>
-              <ol>
-                <li v-for="pair of graphNetwork.neighborNodesAndEdgeWt(bullet.id, 'req', 1)" :key="'mres'+pair.node.id">
-                  {{ pair.node.value }} <b>({{ Math.round( 1000*(1 - pair.edgeWt))/10 }}%)</b>
-                </li>
-              </ol>
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-
-    <div class="rounded-light-spacing" v-if="graphNetwork.hasStuff()">
-      <h2>Matches to the Requirements</h2>
-        <p>
-          This pane shows job bullets in your résumé that match requirements (if matching bullets exist).
-        </p>
-      <ul>
-        <li v-for="req of graphNetwork.getNodesWithGroup('req')" :key="'mreq'+req.id">
-          <h3>{{ req.value }}</h3>
-          <ol>
-            <li v-for="pair of graphNetwork.neighborNodesAndEdgeWt(req.id, 'bullet', 1)" :key="'mreq'+pair.node.id">
-              {{ pair.node.value }} <b>({{ Math.round( 1000*(1 - pair.edgeWt))/10 }}%)</b> <i v-for="job of graphNetwork.neighborNodes(pair.node.id, 'job')" :key="'mreqj'+job.id">{{ job.value }}</i>
-            </li>
-          </ol>
-        </li>
-      </ul>
-    </div>
-    <div>
-      <GraphVis />
-    </div>
+    <M2ResContainer :graphNetwork="graphNetwork"/>
+    <M2ReqContainer :graphNetwork="graphNetwork"/>
+    <M2GraphContainer :graphNetwork="graphNetwork"/>
   </div>
 </template>
 
@@ -53,12 +14,15 @@ import { defineComponent, ref } from 'vue';
 import { useRequirements } from '../store/requirements.ts';
 import { useJobBullet, Job } from '../store/jobBullet.ts';
 import { GraphNetwork } from './tailor/graphNetworkOps.ts';
-import GraphVis from './GraphVis.vue'
+//import GraphVis from './GraphVis.vue'
+import M2ResContainer from './M2ResContainer.vue';
+import M2ReqContainer from './M2ReqContainer.vue';
+import M2GraphContainer from './M2GraphContainer.vue'
 import axios from 'axios';
 
 export default defineComponent({
   name: 'TailorContainer',
-  components: { GraphVis },
+  components: { M2ResContainer, M2ReqContainer, M2GraphContainer },
   setup() {
     const jobBulletStore = useJobBullet();
     const { jobs } = storeToRefs(jobBulletStore);
