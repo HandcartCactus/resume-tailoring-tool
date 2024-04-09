@@ -47,7 +47,6 @@ button,
   cursor: pointer;
   transition: border-color 0.25s;
   white-space: nowrap;
-  /*how does one diff CSS in firefox? help me :(*/
   display: inline-block;
   box-sizing: border-box;
   line-height: normal;
@@ -86,6 +85,12 @@ textarea {
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+}
+
+footer {
+  display: flex; 
+  margin-right: 5px; 
+  align-items: center;
 }
 
 @media (prefers-color-scheme: light) {
