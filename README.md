@@ -71,7 +71,7 @@ sudo nginx
 cd /home/ec2-user/repo/backend
 source venv/bin/activate
 cd src
-nohup uvicorn app:app --host 0.0.0.0 --port 20595 --workers 4 --env-file ./.env.development &
+nohup uvicorn app:app --host 0.0.0.0 --port 20595 --workers 4 --env-file ./.env.production &
 ```
 
 ### Stop Deployment
