@@ -93,4 +93,23 @@ kill -9 $(pgrep --full nginx)
 kill $(pgrep --full "/home/ec2-user/repo/backend/venv/bin/python3")
 ```
 
+### Update Deployment
+```bash
+cd /home/ec2-user/repo
+git fetch
+git pull
+cd frontend
+npm install
+npm run build
+sudo rm -rf /var/www/app
+sudo cp -R /home/ec2-user/repo/frontend/dist /var/www/app
+cd ../backend
+source venv/bin/activate
+python -m pip install -r requirements.txt
+cd src
+kill $(pgrep --full "/home/ec2-user/repo/backend/venv/bin/python3")
+nohup uvicorn app:app --host 0.0.0.0 --port 20595 --workers 4 --env-file ./.env.production &
+deactivate
+cd /home/ec2-user/repo
+```
 
