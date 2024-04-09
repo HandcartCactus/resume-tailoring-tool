@@ -112,4 +112,3 @@ nohup uvicorn app:app --host 0.0.0.0 --port 20595 --workers 4 --env-file ./.env.
 deactivate
 cd /home/ec2-user/repo
 ```
-
