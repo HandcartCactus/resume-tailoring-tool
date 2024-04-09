@@ -1,32 +1,69 @@
 <template>
-    <div id="force-network-svg-container"></div>
+    <div :id="SVG_CONTAINER_DIV_ID"></div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 import * as d3 from "d3";
 
+interface FNSNodeInterface extends d3.SimulationNodeDatum {
+    // x?: Number | undefined;
+    // y?: Number | undefined;
+    // vx?: Number | undefined;
+    // vy?: Number | undefined;
+    // fx?: Number | undefined;
+    // fy?: Number | undefined;
+    nodeStroke?: String | undefined;
+    nodeStrokeOpacity?: Number | undefined;
+    nodeStrokeWidth?: Number | undefined;
+    nodeRadius?: Number | undefined;
+    nodeFill?: Number | undefined;
+    nodeTitle?: String | undefined;
+    forceX?: Number | undefined;
+    forceY?: Number | undefined;
+    forceManyBodyStrength?: Number | undefined;
+    forceCollideRadius?: Number | undefined;
+}
+
+interface FNSLinkInterface extends d3.SimulationLinkDatum {
+    linkStroke?: String | undefined; 
+    linkStrokeOpacity?: Number | undefined; 
+    linkStrokeWidth?: Number | undefined;
+    linkTitle?: String | undefined; 
+}
+
+// class FNSNode implements FNSNodeInterface {
+// }
+
+// class FNSLink implements FNSLinkInterface {
+
+// }
+
+const SVG_CONTAINER_DIV_ID = "force-network-svg-container-sedru7gheriugheirfuvhq-r89jerivuhwsp9er8ghswre-9v";
+
 export default defineComponent({
     name: "ForceNetworkSvg",
     components: {},
     props: {
         nodes: {
+            //type: FNSNode[],
             default: [
                 { id: 1, nodeTitle: "nodeTitle: 'nodeTitle'" }, 
                 { id: 2, nodeTitle: "nodeStroke: '#FFFFFF'", nodeStroke: '#FFFFFF' }, 
                 { id: 3, nodeTitle: 'nodeFill: "#0000FF"', nodeFill: "#000077" }, 
                 { id: 4, nodeTitle: 'nodeRadius: 17', nodeRadius: 17 }, 
-                { id: 5 }, 
-                { id: 6 },
-                { id: 7 }, 
-                { id: 8 },
+                { id: 5, }, 
+                { id: 6, },
+                { id: 7, }, 
+                { id: 8, },
             ],
         },
         links: {
+            //type: FNSLink[],
             default: [
                 { source: 1, target: 2, }, 
-                { source: 2, target: 3, linkStroke: 'white' }, 
-                { source: 2, target: 4, linkStrokeWidth: 10, linkTitle: 'what'}, 
+                { source: 2, target: 3, linkStroke: 'white', linkTitle: 'linkStroke: white' }, 
+                { source: 2, target: 4, linkStrokeWidth: 10, linkTitle: 'linkStrokeWidth: 10'}, 
                 { source: 4, target: 5, }, 
                 { source: 4, target: 6 }, 
                 { source: 1, target: 6 },
@@ -94,9 +131,9 @@ export default defineComponent({
             type: Number,
             default: 1,
         },
-        forceCollideStrength: {
+        forceCollideRadius: {
             type: Number,
-            default: 1,
+            default: 20,
         },
         forceX: {
             type: Number,
@@ -108,7 +145,7 @@ export default defineComponent({
         },
         forceManyBodyStrength: {
             type: Number,
-            default: -30,
+            default: -60,//-30,
         },
         forceManyBodyTheta: {
             type: Number,
@@ -149,7 +186,7 @@ export default defineComponent({
                 .force("center", d3.forceCenter(props.width / 2, props.height / 2)
                     .strength(props.forceCenterStrength)
                 )
-                .force("collide", d3.forceCollide().radius((d)=> d.forceCollideStrength ?? props.forceCollideStrength))
+                .force("collide", d3.forceCollide().radius((d)=> (d.forceCollideRadius ?? 2 * d.nodeRadius) ?? props.forceCollideRadius))
                 .force("x", d3.forceX().strength((d)=>d.forceX ?? props.forceX))
                 .force("y", d3.forceY().strength((d)=>d.forceY ?? props.forceY))
                 .on("tick", ticked);
@@ -228,16 +265,24 @@ export default defineComponent({
                 event.subject.fy = null;
             }
 
-            return svg.node();
+            let svgNode = svg.node();
+            if (svgNode == null) {
+                throw Error("weird! contact developer")
+            }
+            return svgNode;
         };
 
         return {
             props,
             createSvg,
+            SVG_CONTAINER_DIV_ID,
         };
     },
     mounted() {
-        let container = document.getElementById("force-network-svg-container");
+        let container = document.getElementById(this.SVG_CONTAINER_DIV_ID);
+        if (container == null) {
+            throw Error(`no div with id ${SVG_CONTAINER_DIV_ID}`)
+        }
         container.appendChild(this.createSvg());
     },
 });
