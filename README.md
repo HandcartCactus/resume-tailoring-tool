@@ -1,4 +1,6 @@
 # Resume Tailoring Tool
+https://resumetool.eliasjaffe.com
+
 ## Intro & Demo
 [![Intro and Demo Video](https://img.youtube.com/vi/-xjNAUPHewo/0.jpg)](https://www.youtube.com/watch?v=-xjNAUPHewo)
 
@@ -18,7 +20,8 @@ npm install && npm run dev
 ```bash
 cd backend
 # activate venv
-uvicorn --port 20595 app:app --reload
+cd src
+uvicorn --port 20595 app:app --reload --env-file ./.env.development
 ```
 
 ## Production
@@ -70,7 +73,7 @@ sudo nginx
 cd /home/ec2-user/repo/backend
 source venv/bin/activate
 cd src
-nohup uvicorn app:app --host 0.0.0.0 --port 20595 --workers 4 &
+nohup uvicorn app:app --host 0.0.0.0 --port 20595 --workers 4 --env-file ./.env.production &
 ```
 
 ### Stop Deployment
