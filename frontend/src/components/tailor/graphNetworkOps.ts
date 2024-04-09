@@ -230,4 +230,14 @@ export class GraphNetwork {
     hasStuff() {
         return this.nodelist.length > 0
     }
+
+    keepEdges(edgefilter: Function, inplace:boolean=false) {
+        let nghe: GraphEdge[] = this.edgelist.filter((e)=>edgefilter(e));
+        let nghn: GraphNode[] = this.nodelist;
+        if (!inplace) {
+            nghn = structuredClone(nghn);
+            nghe = structuredClone(nghe);
+        }
+        return new GraphNetwork(nghn, nghe);
+    }
 }

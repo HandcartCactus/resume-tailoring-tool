@@ -41,7 +41,9 @@
         </li>
       </ul>
     </div>
-    <!-- <GraphNetworkContainer :graph="graphNetwork"/> -->
+    <div>
+      <GraphVis />
+    </div>
   </div>
 </template>
 
@@ -50,13 +52,13 @@ import { storeToRefs } from 'pinia';
 import { defineComponent, ref } from 'vue';
 import { useRequirements } from '../store/requirements.ts';
 import { useJobBullet, Job } from '../store/jobBullet.ts';
-import GraphNetworkContainer from './GraphNetwork/GraphNetworkContainer.vue';
 import { GraphNetwork } from './tailor/graphNetworkOps.ts';
+import GraphVis from './GraphVis.vue'
 import axios from 'axios';
 
 export default defineComponent({
   name: 'TailorContainer',
-  components: { GraphNetworkContainer },
+  components: { GraphVis },
   setup() {
     const jobBulletStore = useJobBullet();
     const { jobs } = storeToRefs(jobBulletStore);
@@ -82,6 +84,7 @@ export default defineComponent({
 
     async function getTfIdfGraph(jobs: Job[], requirements: string[]) {
       try {
+        console.log(import.meta.env.VITE_APP_API_BASE_URL+'/tfidf/distgraph')
         const postResponse = await axios.post(
           import.meta.env.VITE_APP_API_BASE_URL+'/tfidf/distgraph', 
           {jobs: jobs, requirements: requirements,}, 
