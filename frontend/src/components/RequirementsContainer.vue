@@ -8,11 +8,11 @@
           @input="store.updateRequirementEvent(reqIndex, $event)"
           :placeholder="randomRequirementPrompt(reqIndex)"
         ></textarea>
-        <button @click="store.deleteRequirement(reqIndex)">❌</button>
+        <button @click="store.deleteRequirement(reqIndex)"><SvgIcon :path="deleteReqIcon" style="fill: red;"/></button>
       </span>
     </div>
     <div>
-      <button @click="store.createRequirement()">➕ Requirement</button>
+      <button @click="store.createRequirement()"><SvgIcon :path="createReqIcon" style="fill: green;"/> Requirement</button>
     </div>
     <div>
       <ImportExportContainer
@@ -31,23 +31,27 @@ import { defineComponent } from 'vue';
 import { useRequirements } from '../store/requirements.ts';
 import { randomRequirementPrompt } from '../constants.ts';
 import ImportExportContainer from './ImportExportContainer.vue';
-import exampleRequirement from '../../sample_data/Requirements_silly.json'
+import exampleRequirement from '../../sample_data/Requirements_silly.json';
+import SvgIcon from './SvgIcon.vue';
+import { mdiFileDocumentPlusOutline, mdiFileDocumentRemoveOutline  } from '@mdi/js';
 
 export default defineComponent({
   name: 'RequirementsContainer',
   components: {
-    ImportExportContainer,
+    ImportExportContainer, SvgIcon
   },
   setup() {
     const store = useRequirements();
     const { requirements } = storeToRefs(store);
     const elemName = 'Requirements';
     return {
-      requirements,
-      elemName,
+      requirements: requirements,
+      elemName: elemName,
       store,
       randomRequirementPrompt,
       exampleRequirement,
+      createReqIcon: mdiFileDocumentPlusOutline,
+      deleteReqIcon: mdiFileDocumentRemoveOutline,
     };
   },
 });

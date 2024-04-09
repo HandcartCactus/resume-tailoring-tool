@@ -1,7 +1,11 @@
 <template>
   <div class="rounded-light-spacing">
-    <h2>Results</h2>
-    <button @click="getTfIdfGraph(jobs, requirements)" :disabled="isDisabled()">Run Results!</button>
+    <h2>Match Insights</h2>
+    <button @click="getTfIdfGraph(jobs, requirements)" :disabled="isDisabled()">
+      <SvgIcon :path="mdiRuler" :style="iconStyle"/>
+      Get Match Insights
+      <SvgIcon :path="mdiBrain" :style="iconStyle"/>
+    </button>
     <M2ResContainer :graphNetwork="graphNetwork"/>
     <M2ReqContainer :graphNetwork="graphNetwork"/>
     <M2GraphContainer :graphNetwork="graphNetwork"/>
@@ -18,11 +22,13 @@ import { GraphNetwork } from './tailor/graphNetworkOps.ts';
 import M2ResContainer from './M2ResContainer.vue';
 import M2ReqContainer from './M2ReqContainer.vue';
 import M2GraphContainer from './M2GraphContainer.vue'
+import SvgIcon from './SvgIcon.vue';
+import { mdiRuler, mdiBrain  } from '@mdi/js';
 import axios from 'axios';
 
 export default defineComponent({
   name: 'TailorContainer',
-  components: { M2ResContainer, M2ReqContainer, M2GraphContainer },
+  components: { M2ResContainer, M2ReqContainer, M2GraphContainer, SvgIcon },
   setup() {
     const jobBulletStore = useJobBullet();
     const { jobs } = storeToRefs(jobBulletStore);
@@ -32,7 +38,10 @@ export default defineComponent({
 
     const graphNetwork = ref(new GraphNetwork([], []));
 
+    const iconStyle = ref('fill: lightgray;');
+
     function isDisabled(){
+      // should the tailor button appear disabled?
       let bulletCount = 0;
       let reqCount = 0;
       for (let job of jobs.value) {
@@ -43,9 +52,21 @@ export default defineComponent({
       for (let req of requirements.value) {
         reqCount += req.length
       }
-      return reqCount < 1 || bulletCount < 1
+      const noData = reqCount < 1 || bulletCount < 1;
+
+      // i needed to update the icon styles whenever the value of this function changes
+      // but wasn't sure how best to do that. it makes (some) sense to put it here.
+      if (noData) {
+        iconStyle.value = 'fill: lightgray;';
+      } else {
+        iconStyle.value = 'fill: green;';
+      }
+
+      return noData
     }
 
+    
+    
     async function getTfIdfGraph(jobs: Job[], requirements: string[]) {
       try {
         console.log(import.meta.env.VITE_APP_API_BASE_URL+'/tfidf/distgraph')
@@ -71,6 +92,9 @@ export default defineComponent({
       graphNetwork: graphNetwork,
       isDisabled: isDisabled,
       getTfIdfGraph: getTfIdfGraph,
+      mdiRuler: mdiRuler,
+      mdiBrain: mdiBrain,
+      iconStyle: iconStyle,
     };
   },
 });

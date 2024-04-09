@@ -22,6 +22,12 @@ const NODE_COLORS: { [group: string]: string } = {
     req: 'orange',
 }
 
+const NODE_X_FORCES: { [group: string]: number } = {
+    job: 0.05,
+    bullet: 0.0,
+    req: -0.05,
+}
+
 function trimString(s: string, length: number) {
     return s.length > length ? s.substring(0, length - 3) + "..." : s
 }
@@ -122,9 +128,10 @@ export default defineComponent({
             const simulation = d3
                 .forceSimulation(nodes)
                 .force("link", d3.forceLink(links).id((d: any) => d.id))
-                .force("charge", d3.forceManyBody().strength(-40))
+                .force("charge", d3.forceManyBody().strength(-20))
                 .force("center", d3.forceCenter(props.width / 2, props.height / 2).strength(1.1))
-                .force("collide", d3.forceCollide().radius((d: any) => (3.5 * NODE_SIZES[d.group])))
+                .force("collide", d3.forceCollide().radius((d: any) => (4 * NODE_SIZES[d.group])))
+                .force("x", d3.forceX().strength((d: any)=>NODE_X_FORCES[d.group]))
                 .on("tick", ticked);
 
             // Create the SVG container.

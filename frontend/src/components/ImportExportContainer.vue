@@ -3,11 +3,13 @@
     <div>
       <div class="button-container">
         <div class="button">
-          <button @click="exportData()">Export {{ elemName }}</button>
+          <button @click="exportData()"><SvgIcon :path="mdiExport" style="fill: green;"/> Export {{ elemName }}</button>
         </div>
         <div class="button file-input-container">
           <label :for="uniqueElementId" class="pseudo-button"
-          >Import {{ elemName }}
+          >
+          <SvgIcon :path="mdiImport" style="fill: green;"/>
+          Import {{ elemName }}
           <input
           type="file"
           :id="uniqueElementId"
@@ -19,7 +21,10 @@
         
         </div>
         <div class="button">
-          <button @click="loadExampleObj()" :disabled="exampleObj==null">Load Example {{ elemName }}</button>
+          <button @click="loadExampleObj()" :disabled="exampleObj==null">
+            <SvgIcon :path="mdiTestTube" style="fill: green;"/>
+            Load Example {{ elemName }}
+          </button>
         </div>
       </div>
     </div>
@@ -32,9 +37,12 @@
 import { defineComponent } from 'vue';
 import { saveAs } from 'file-saver';
 //import { Requirement } from '../store/stringList.ts';
+import SvgIcon from './SvgIcon.vue';
+import { mdiExport, mdiImport, mdiTestTube } from '@mdi/js';
 
 export default defineComponent({
   name: 'ImportExportContainer',
+  components: { SvgIcon },
   props: ['elemName', 'data', 'importFunc', 'exampleObj'],
   methods: {
     async handleFileUpload(event: Event) {
@@ -99,6 +107,9 @@ export default defineComponent({
       exportData,
       importData,
       uniqueElementId,
+      mdiImport,
+      mdiExport,
+      mdiTestTube,
     };
   },
 });
