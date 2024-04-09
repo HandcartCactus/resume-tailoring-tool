@@ -1,12 +1,10 @@
 from fastapi import FastAPI, Response, Request
 from fastapi.middleware.cors import CORSMiddleware
 import tfidf
+import os
 
 origins = [
-    'http://localhost',
-    #'http://127.0.0.1'
-    #"http://localhost:5173",
-    #"http://resumetool.eliasjaffe.com",
+    os.getenv("RESUMETOOL_FRONTEND_URL_ORIGIN")
 ]
 
 
